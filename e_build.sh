@@ -8,6 +8,22 @@ REPO_LIST="core/efl core/enlightenment apps/equate apps/terminology tools/edi"
 
 LOG_FILE=.e_build.out
 
+function get_password {
+  echo -n "[SUDO ] Please input password for install scripts: "
+
+  while [ -z "$SUDO_PASS" ]; do
+    read -s SUDO_PASS
+    echo ""
+
+    echo $SUDO_PASS | sudo -Sk -p "" 1>&2 2>/dev/null true
+    if [ $? -eq 0 ]; then
+      break;
+    fi
+    SUDO_PASS=
+    echo -n "[SUDO ] Please try again: "
+  done
+}
+
 function quit {
   IFS='
 '
@@ -21,6 +37,8 @@ function quit {
   fi
   exit 1
 }
+
+get_password
 
 for REPO in $REPO_LIST ; do
   NAME=`echo $REPO|cut -d'/' -f2`
@@ -39,7 +57,7 @@ for REPO in $REPO_LIST ; do
   ./autogen.sh > /dev/null 2>$LOG_FILE || quit
   make > /dev/null 2>$LOG_FILE || quit
   echo "[INST ] ${NAME}"
-  sudo make install
+  echo $SUDO_PASS | sudo -kS make install > /dev/null 2>$LOG_FILE || quit
   cd ..
 done
 
