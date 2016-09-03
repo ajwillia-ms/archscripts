@@ -4,7 +4,7 @@
 
 REPO_URL="https://git.enlightenment.org"
 
-REPO_LIST="core/efl core/enlightenment apps/equate tools/edi"
+REPO_LIST="core/efl core/enlightenment apps/equate apps/terminology tools/edi"
 
 for REPO in $REPO_LIST ; do
   NAME=`echo $REPO|cut -d'/' -f2`
