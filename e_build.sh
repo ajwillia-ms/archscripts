@@ -45,6 +45,13 @@ for REPO in $REPO_LIST ; do
   if [ -d "$NAME" ]; then
     echo "[PULL ] ${NAME}"
     cd ${NAME}
+    git fetch -q
+    if [ $(git rev-parse HEAD) == $(git rev-parse @{u}) ]; then
+      echo "[SKIP ] No changes to build"
+      cd ..
+      continue
+    fi
+
     git pull -q --rebase 1>&2 2>$LOG_FILE || quit
     cd ..
   else
