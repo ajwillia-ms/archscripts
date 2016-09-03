@@ -4,7 +4,7 @@
 
 REPO_URL="https://git.enlightenment.org"
 
-REPO_LIST="core/efl core/enlightenment apps/equate apps/terminology tools/edi"
+REPO_LIST="core/efl core/enlightenment apps/terminology apps/equate apps/ecrire tools/edi"
 
 LOG_FILE=.e_build.out
 
@@ -54,11 +54,18 @@ for REPO in $REPO_LIST ; do
 
   echo "[BUILD] ${NAME}"
   cd ${NAME}
-  ./autogen.sh > /dev/null 2>$LOG_FILE || quit
+  if [ -e autogen.sh ]; then
+    ./autogen.sh > /dev/null 2>$LOG_FILE || quit
+  else
+    cd ..
+    mkdir ${NAME}/build
+    cd ${NAME}/build
+    cmake .. > /dev/null 2>$LOG_FILE || quit
+  fi
   make > /dev/null 2>$LOG_FILE || quit
   echo "[INST ] ${NAME}"
   echo $SUDO_PASS | sudo -kS make install > /dev/null 2>$LOG_FILE || quit
-  cd ..
+  cd -
 done
 
 

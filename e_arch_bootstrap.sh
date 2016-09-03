@@ -10,5 +10,5 @@ sudo pacman --noconfirm -S gstreamer gst-plugins-base gst-plugins-good bullet lu
 
 sudo pacman --noconfirm -S xcb-util-keysyms xorg-sessreg vlc
 
-sudo pacman --noconfirm -S base-devel gdb
+sudo pacman --noconfirm -S base-devel gdb cmake
 
