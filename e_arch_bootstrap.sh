@@ -1,14 +1,15 @@
-#!/bin/bash
+#!/bin/sh
 # -*- coding: utf-8 -*-
-# Take an arch install from zero to ready for Enlightenment
+# Install EFL, Enlightenment and cool stuff on arch
 
-sudo pacman --noconfirm -S git screen sudo
-sudo pacman --noconfirm -S check libjpeg-turbo fribidi libx11 libxext valgrind libxrender libgles giflib libtiff libraw librsvg poppler
+echo "This script has been replaced by the EFL \"efler\" application"
+echo -n "Type 'Y' if you would like to run efler bootstrap: "
+read ANSWER
+echo ""
 
-sudo pacman --noconfirm -S libpulse libxcursor libxcomposite libxinerama libxp libxrandr libxss lua
-sudo pacman --noconfirm -S gstreamer gst-plugins-base gst-plugins-good bullet luajit
+if [[ "$ANSWER" != "Y" ]] && [[ "$ANSWER" != "y" ]]; then
+  exit 1
+fi
 
-sudo pacman --noconfirm -S xcb-util-keysyms xorg-sessreg vlc
-
-sudo pacman --noconfirm -S base-devel gdb cmake
+bash -c "$(curl -fsSL https://git.enlightenment.org/devs/ajwillia-ms/efler.git/plain/bootstrap.sh)"
 
